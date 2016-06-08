@@ -1,10 +1,10 @@
-ab = 412
-h = 93
-double = 8
+ab = 508
+h = 133
+double = 23
 triple = 3
-homerun = 4
+homerun = 22
 single = (h-double-triple-homerun)
-sb = 57
+sb = 0
 bab = (double*2+triple*3+homerun*4)/ab
 
 babpower = (.42747)
@@ -16,14 +16,20 @@ points = matrix(
   byrow = TRUE
 )
 
-speederror = (abs(sb-50)/50)
-powererror = (abs(bab-babpower)/babpower)
-aberror = abs(ab-550)/550
+powererror = 1 - (abs(bab-babpower)/babpower)
+if (sb>50) {
+  speederror = 1
+} else {
+  speederror = 1 - (abs(sb-50)/50)
+}
+bencherror = abs(ab-550)/550
 
-speed = 1 - (speederror/(speederror+powererror))
-power = 1 - (powererror/(speederror+powererror))
+speed = (speederror/(speederror+powererror+bencherror))
+power = (powererror/(speederror+powererror+bencherror))
+bench = (bencherror/(speederror+powererror+bencherror))
 
 plot(points,xlab = 'XBH/AB',ylab = 'SB')
 
 cat("Power: ",power)
 cat("Speed: ",speed)
+cat("Bench: ",bench)
